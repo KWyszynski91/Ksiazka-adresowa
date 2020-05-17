@@ -1,2 +1,4 @@
 # Ksiazka-adresowa
-projekt PP
+autor: Krzysztof Wyszyński
+nazwa: Książka adresowa
+kurs: Przyszły Programista
