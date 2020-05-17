@@ -1,2 +1,2 @@
 # Ksiazka-adresowa
-projekt PP
+Mój projekt flagowy w kursie
