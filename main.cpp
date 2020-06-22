@@ -233,7 +233,19 @@ int DodawanieKontaktu (vector<Adresat> &WektorAdresow, int liczbaKontaktow, int 
     cout<<"Wprowad\253 adres kontaktu <miasto, ulica nr.domu/mieszkania>: ";
     getline(cin>>ws, adres);
     WektorAdresow.push_back(Adresat{nowyID, idUzytkownika, imie, nazwisko, numerTelefonu, email, adres});
-    ZapisywanieDanychdoPliku(WektorAdresow, liczbaKontaktow+1, nowyID);
+    fstream plikWY;
+    plikWY.open("adresaci.txt",ios::out|ios::app);
+    {
+        plikWY<<nowyID<<"|";
+        plikWY<<idUzytkownika<<"|";
+        plikWY<<imie<<"|";
+        plikWY<<nazwisko<<"|";
+        plikWY<<numerTelefonu<<"|";
+        plikWY<<email<<"|";
+        plikWY<<adres<<"|";
+        plikWY<<endl;
+    }
+    plikWY.close();
     cout<<"Dokonano "<<liczbaKontaktow+1<<" wpisu do listy u\276ytkownika!"<<endl;
     Sleep(1500);
     return liczbaKontaktow+1;
@@ -340,7 +352,7 @@ int UsunKontakt(vector<Adresat> &WektorAdresow, int liczbaKontaktow)
             {
                 WektorAdresow.erase(WektorAdresow.begin()+i);
             }
-            else if(decyzja=='n')
+            else
             {
                 znalezione=0;
                 break;
