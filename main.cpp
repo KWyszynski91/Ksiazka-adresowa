@@ -554,7 +554,6 @@ int main()
                 cout<<"7. Zmie\344 has\210o"<<endl;
                 cout<<"9. Wyloguj si\251"<<endl;
                 cout<<"====================" << endl;
-cout<<"Ostatni numerek: "<<idOstatniegoAdresata<<endl;
                 cout<<"Tw\242j wyb\242r: ";
                 cin>>wybor;
                 cout<<"====================" << endl;
