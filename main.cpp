@@ -351,13 +351,13 @@ int UsunKontakt(vector<Adresat> &WektorAdresow, int liczbaKontaktow)
             if(decyzja=='t')
             {
                 WektorAdresow.erase(WektorAdresow.begin()+i);
+                ZapisywanieDanychdoPliku(WektorAdresow, liczbaKontaktow-1, numerID);
             }
             else
             {
                 znalezione=0;
                 break;
             }
-            ZapisywanieDanychdoPliku(WektorAdresow, liczbaKontaktow-1, numerID);
             return liczbaKontaktow-1;
         }
     }
@@ -366,6 +366,27 @@ int UsunKontakt(vector<Adresat> &WektorAdresow, int liczbaKontaktow)
         cout<<"Operacja przerwana"<<endl;
         Sleep(1500);
         return liczbaKontaktow;
+    }
+}
+
+int UstalOstatniegoAdresata(vector<Adresat> &WektorAdresow, int liczbaKontaktowPrzed, int liczbaKontaktow, int idOstatniegoAdresata)
+{
+    int NowyNajswiezszy=0;
+    for(int i=0; i<liczbaKontaktow; i++)
+    {
+        if (WektorAdresow[i].id>idOstatniegoAdresata)
+        {
+           NowyNajswiezszy=WektorAdresow[i].id;
+           return NowyNajswiezszy;
+        }
+    }
+    if(liczbaKontaktowPrzed>liczbaKontaktow)
+    {
+       return idOstatniegoAdresata-1;
+    }
+    else
+    {
+      return idOstatniegoAdresata;
     }
 }
 
@@ -393,6 +414,7 @@ void zmianaHasla(vector<Uzytkownik> &WektorUzytkownikow, int iloscUzytkownikow, 
         if(WektorUzytkownikow[i].id==IDzalogowanegoUzytkownika)
         {
             WektorUzytkownikow[i].haslo=haslo;
+            ZapisUzytkownikaDoPliku(WektorUzytkownikow, iloscUzytkownikow);
             cout<<"Has\210o zosta\210o zmienione!"<<endl;
             Sleep(1500);
         }
@@ -532,6 +554,7 @@ int main()
                 cout<<"7. Zmie\344 has\210o"<<endl;
                 cout<<"9. Wyloguj si\251"<<endl;
                 cout<<"====================" << endl;
+cout<<"Ostatni numerek: "<<idOstatniegoAdresata<<endl;
                 cout<<"Tw\242j wyb\242r: ";
                 cin>>wybor;
                 cout<<"====================" << endl;
@@ -554,7 +577,9 @@ int main()
                 }
                 if(wybor=='5')
                 {
+                    int liczbakontaktowPrzedUsuwaniem=liczbaKontaktow;
                     liczbaKontaktow=UsunKontakt(adresaci, liczbaKontaktow);
+                    idOstatniegoAdresata=UstalOstatniegoAdresata(adresaci, liczbakontaktowPrzedUsuwaniem, liczbaKontaktow, idOstatniegoAdresata);
                 }
                 if(wybor=='6')
                 {
