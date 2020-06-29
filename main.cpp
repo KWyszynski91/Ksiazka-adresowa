@@ -369,25 +369,40 @@ int UsunKontakt(vector<Adresat> &WektorAdresow, int liczbaKontaktow)
     }
 }
 
-int UstalOstatniegoAdresata(vector<Adresat> &WektorAdresow, int liczbaKontaktowPrzed, int liczbaKontaktow, int idOstatniegoAdresata)
+int UstalOstatniegoAdresata(int liczbaKontaktow, int idOstatniegoAdresata)
 {
-    int NowyNajswiezszy=0;
-    for(int i=0; i<liczbaKontaktow; i++)
+    string imie, nazwisko,numerTelefonu, email, adres;
+    int id=0, idUzytkownika=0;
+    fstream plik;
+    plik.open("adresaci.txt",ios::in);
+    string linia;
+    int nrLinii=1;
+    int NowyOstatniID=0;
+    while(getline(plik,linia,'|'))
     {
-        if (WektorAdresow[i].id>idOstatniegoAdresata)
+        switch(nrLinii)
         {
-           NowyNajswiezszy=WektorAdresow[i].id;
-           return NowyNajswiezszy;
+        case 1:{id=atoi(linia.c_str());break;}
+        case 2:{idUzytkownika=atoi(linia.c_str());break;}
+        case 3:{imie=linia;break;}
+        case 4:{nazwisko=linia;break;}
+        case 5:{numerTelefonu=linia;break;}
+        case 6:{email=linia;break;}
+        case 7:{adres=linia;break;}
         }
+        if(nrLinii==7)
+        {
+            if(id>NowyOstatniID)
+            {
+                NowyOstatniID=id;
+            }
+
+            nrLinii=0;
+        }
+        nrLinii++;
     }
-    if(liczbaKontaktowPrzed>liczbaKontaktow)
-    {
-       return idOstatniegoAdresata-1;
-    }
-    else
-    {
-      return idOstatniegoAdresata;
-    }
+    plik.close();
+return NowyOstatniID;
 }
 
 void PokazKontakty(vector<Adresat> &WektorAdresow, int liczbaKontaktow)
@@ -521,7 +536,7 @@ int main()
                     case 4:{nazwisko=linia; break;}
                     case 5:{numerTelefonu=linia; break;}
                     case 6:{email=linia; break;}
-                    case 7:{adres=linia;}
+                    case 7:{adres=linia; break;}
                     }
                     if(nrLinii==7)
                     {
@@ -576,9 +591,8 @@ int main()
                 }
                 if(wybor=='5')
                 {
-                    int liczbakontaktowPrzedUsuwaniem=liczbaKontaktow;
                     liczbaKontaktow=UsunKontakt(adresaci, liczbaKontaktow);
-                    idOstatniegoAdresata=UstalOstatniegoAdresata(adresaci, liczbakontaktowPrzedUsuwaniem, liczbaKontaktow, idOstatniegoAdresata);
+                    idOstatniegoAdresata=UstalOstatniegoAdresata(liczbaKontaktow, idOstatniegoAdresata);
                 }
                 if(wybor=='6')
                 {
